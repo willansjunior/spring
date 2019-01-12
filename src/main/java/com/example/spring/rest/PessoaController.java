@@ -17,12 +17,12 @@ import com.example.spring.service.PessoaService;
 
 @RestController
 @RequestMapping(value = "/api/pessoa")
-public class PessoaResource {
+public class PessoaController {
 	
 	private PessoaService pessoaService;
 
 	@Autowired
-	public PessoaResource(PessoaService pessoaService) {
+	public PessoaController(PessoaService pessoaService) {
 		this.pessoaService = pessoaService;
 	}
 	

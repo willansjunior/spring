@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.example.spring.dto.UnidadeDTO;
+
 @Entity
 @Table(name = "unidade")
 @SuppressWarnings("serial")
@@ -20,6 +22,15 @@ public class Unidade implements Serializable {
 	
 	@Column(name = "nome", nullable = false)
 	private String nome;
+
+	public Unidade() {
+		
+	}
+	
+	public Unidade(UnidadeDTO dto) {
+		this.codigo = dto.codigo;
+		this.nome = dto.nome;
+	}
 
 	public Long getCodigo() {
 		return codigo;
