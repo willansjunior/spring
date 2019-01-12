@@ -40,6 +40,7 @@ public class Pessoa implements Serializable {
 		this.codigo = dto.codigo;
 		this.nome = dto.nome;
 		this.salario = dto.salario;
+		this.unidade = new Unidade(dto.unidade);
 	}
 
 	public Long getCodigo() {

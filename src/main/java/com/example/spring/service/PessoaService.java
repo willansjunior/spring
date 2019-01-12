@@ -8,18 +8,24 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.spring.ErrorException;
 import com.example.spring.dto.PessoaDTO;
 import com.example.spring.model.Pessoa;
+import com.example.spring.model.Unidade;
 import com.example.spring.repository.PessoaRepository;
+import com.example.spring.repository.UnidadeRepository;
 
 @Service
 public class PessoaService {
 	
 	private PessoaRepository pessoaRepository;
+	private UnidadeRepository unidadeRepository;
 	
 	@Autowired
-	public PessoaService(PessoaRepository pessoaRepository) {
+	public PessoaService(PessoaRepository pessoaRepository,
+			UnidadeRepository unidadeRepository) {
 		this.pessoaRepository = pessoaRepository;
+		this.unidadeRepository = unidadeRepository;
 	}
 
 	@Transactional
@@ -42,8 +48,17 @@ public class PessoaService {
 	
 	@Transactional
 	public PessoaDTO create(PessoaDTO dto) {
-		Pessoa pessoa = new Pessoa(dto);
-		pessoaRepository.save(pessoa);
+		Unidade unidade = unidadeRepository.findOne(dto.unidade.codigo);
+		if (unidade == null) {
+			throw new ErrorException("A unidade de codigo " + dto.unidade.codigo + " não existe!");
+		}
+		Pessoa pessoa = pessoaRepository.findOne(dto.codigo);
+		if (pessoa == null) {
+			pessoa = new Pessoa(dto);
+			pessoaRepository.save(pessoa);
+		} else {
+			throw new ErrorException("Já existe uma pessoa com o codigo " + dto.codigo + "!");
+		}
 		
 		return new PessoaDTO(pessoa);
 	}

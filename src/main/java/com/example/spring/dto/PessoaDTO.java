@@ -18,7 +18,7 @@ public class PessoaDTO implements Serializable {
 	@NotNull(message = "Salario obrigatorio!")
 	public Double salario;
 	
-	
+	@NotNull(message = "A unidade deve ser informada!")
 	public UnidadeDTO unidade;
 	
 	public PessoaDTO() {
@@ -29,6 +29,7 @@ public class PessoaDTO implements Serializable {
 		this.codigo = pessoa.getCodigo();
 		this.nome = pessoa.getNome();
 		this.salario = pessoa.getSalario();
+		this.unidade = new UnidadeDTO(pessoa.getUnidade());
 	}
 
 }
