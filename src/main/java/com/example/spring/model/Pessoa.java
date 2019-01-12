@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.example.spring.dto.PessoaDTO;
+
 @Entity
 @Table(name = "pessoa")
 @SuppressWarnings("serial")
@@ -29,6 +31,16 @@ public class Pessoa implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "unidade", nullable = false)
 	private Unidade unidade;
+	
+	public Pessoa() {
+		
+	}
+
+	public Pessoa(PessoaDTO dto) {
+		this.codigo = dto.codigo;
+		this.nome = dto.nome;
+		this.salario = dto.salario;
+	}
 
 	public Long getCodigo() {
 		return codigo;

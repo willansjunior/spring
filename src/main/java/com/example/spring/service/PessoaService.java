@@ -31,6 +31,7 @@ public class PessoaService {
 		return result;
 	}
 
+	@Transactional
 	public List<PessoaDTO> findByNome(String nome) {
 		List<PessoaDTO> result = new ArrayList<>();
 		for (Pessoa pessoa : pessoaRepository.findByNome(nome)) {
@@ -39,6 +40,12 @@ public class PessoaService {
 		return result;
 	}
 	
-	
+	@Transactional
+	public PessoaDTO create(PessoaDTO dto) {
+		Pessoa pessoa = new Pessoa(dto);
+		pessoaRepository.save(pessoa);
+		
+		return new PessoaDTO(pessoa);
+	}
 
 }

@@ -2,14 +2,23 @@ package com.example.spring.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+
 import com.example.spring.model.Pessoa;
 
 @SuppressWarnings("serial")
 public class PessoaDTO implements Serializable {
 	
+	@NotNull(message = "Código obrigatorio!")
 	public Long codigo;
+	
+	@NotNull(message = "Nome obrigatorio!")
 	public String nome;
-	public double salario;
+	
+	@NotNull(message = "Salario obrigatorio!")
+	public Double salario;
+	
+	
 	public UnidadeDTO unidade;
 	
 	public PessoaDTO() {
