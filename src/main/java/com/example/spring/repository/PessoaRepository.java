@@ -10,6 +10,6 @@ import com.example.spring.model.Pessoa;
 @Repository
 public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 	
-	List<Pessoa> findAll();
+	List<Pessoa> findByNome(String nome);
 
 }
