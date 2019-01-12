@@ -1,11 +1,15 @@
 package com.example.spring.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.spring.ErrorException;
+import com.example.spring.dto.RelatorioUnidadeQtdPessoaDTO;
+import com.example.spring.dto.RelatorioUnidadeTotalSalarioDTO;
 import com.example.spring.dto.UnidadeDTO;
 import com.example.spring.model.Unidade;
 import com.example.spring.repository.UnidadeRepository;
@@ -31,6 +35,20 @@ public class UnidadeService {
 		}
 		
 		return new UnidadeDTO(unidade);
+	}
+	
+	@Transactional
+	public List<RelatorioUnidadeQtdPessoaDTO> findAllUnidadesQtdPessoa() {
+		List<RelatorioUnidadeQtdPessoaDTO> result = unidadeRepository.findUnidadeQtdPessoa();
+		
+		return result;
+	}
+	
+	@Transactional
+	public List<RelatorioUnidadeTotalSalarioDTO> findAllUnidadesTotalSalario() {
+		List<RelatorioUnidadeTotalSalarioDTO> result = unidadeRepository.findUnidadeTotalSalario();
+		
+		return result;
 	}
 	
 }
