@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.example.spring.dto.PessoaDTO;
+import com.example.spring.dto.RelatorioUnidadeQtdPessoaDTO;
+import com.example.spring.dto.RelatorioUnidadeTotalSalarioDTO;
 import com.example.spring.model.Pessoa;
 import com.example.spring.model.Unidade;
 import com.example.spring.repository.PessoaRepository;
@@ -38,6 +40,10 @@ public class DemoApplicationTests {
 	
 	private List<PessoaDTO> listPessoa = new ArrayList<>();
 	
+	private List<RelatorioUnidadeQtdPessoaDTO> listQtdPessoaPorUnidade = new ArrayList<>();
+	
+	private List<RelatorioUnidadeTotalSalarioDTO> listTotalSalarioPorUnidade = new ArrayList<>();
+	
 	@Before
 	public void inicializar() {
 		pessoaRepository = EasyMock.createMock(PessoaRepository.class);
@@ -45,10 +51,12 @@ public class DemoApplicationTests {
 		pessoaService = EasyMock.createMock(PessoaService.class);
 		unidadeService = EasyMock.createMock(UnidadeService.class);
 		gerarLista();
+		gerarUnidadeQtdPessoa();
+		gerarUnidadeSalario();
 	}
 
 	@Test
-	public void findAll() {
+	public void findAllPessoa() {
 		EasyMock.expect(pessoaService.findAll()).andReturn(listPessoa);
 		EasyMock.replay(pessoaService);
 		List<PessoaDTO> list = pessoaService.findAll();
@@ -57,12 +65,30 @@ public class DemoApplicationTests {
 	}
 	
 	@Test
-	public void findByName() {
+	public void findByNamePessoa() {
 		EasyMock.expect(pessoaService.findByNome("Willans Firmo")).andReturn(listPessoa);
 		EasyMock.replay(pessoaService);
 		List<PessoaDTO> list = pessoaService.findByNome("Willans Firmo");
 		assertNotNull(list);
 		EasyMock.verify(pessoaService);
+	}
+	
+	@Test
+	public void findTotalSalarioPorUnidade() {
+		EasyMock.expect(unidadeService.findAllUnidadesTotalSalario()).andReturn(listTotalSalarioPorUnidade);
+		EasyMock.replay(unidadeService);
+		List<RelatorioUnidadeTotalSalarioDTO> list = unidadeService.findAllUnidadesTotalSalario();
+		assertNotNull(list);
+		EasyMock.verify(unidadeService);
+	}
+	
+	@Test
+	public void findRelatorioQtdPessoaPorUnidade() {
+		EasyMock.expect(unidadeService.findAllUnidadesQtdPessoa()).andReturn(listQtdPessoaPorUnidade);
+		EasyMock.replay(unidadeService);
+		List<RelatorioUnidadeQtdPessoaDTO> list = unidadeService.findAllUnidadesQtdPessoa();
+		assertNotNull(list);
+		EasyMock.verify(unidadeService);
 	}
 	
 	private void gerarLista() {
@@ -76,15 +102,23 @@ public class DemoApplicationTests {
 		unidade.setNome("Unidade de teste mockito");
 		pessoa.setUnidade(unidade);
 		
-		Pessoa pessoa2 = new Pessoa();
-		pessoa2.setCodigo(12L);
-		pessoa2.setNome("Willans Firmo");
-		pessoa2.setSalario(974.20);
-		
-		pessoa2.setUnidade(unidade);
-		
 		listPessoa.add(new PessoaDTO(pessoa));
-		listPessoa.add(new PessoaDTO(pessoa2));
+	}
+	
+	private void gerarUnidadeQtdPessoa() {
+		RelatorioUnidadeQtdPessoaDTO relatiro = new RelatorioUnidadeQtdPessoaDTO();
+		relatiro.nome = "Unidade Mock";
+		relatiro.qtdPessoa = 3;
+		
+		listQtdPessoaPorUnidade.add(relatiro);
+	}
+	
+	private void gerarUnidadeSalario() {
+		RelatorioUnidadeTotalSalarioDTO relatorio = new RelatorioUnidadeTotalSalarioDTO();
+		relatorio.nome = "Unidade Mock";
+		relatorio.totalSalario = 895.10;
+		
+		listTotalSalarioPorUnidade.add(relatorio);
 	}
 
 }
